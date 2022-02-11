@@ -33,7 +33,6 @@ public class NewBookRequest {
 	
 	private String summary;
 	
-	@NotBlank
 	@Min(value = 20)
 	private BigDecimal price;
 	
