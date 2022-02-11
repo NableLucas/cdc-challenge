@@ -24,11 +24,11 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object>{
 
 	@Override
 	public boolean isValid(Object id, ConstraintValidatorContext context) {
-		TypedQuery<Long> query = manager.createQuery("select count(*) from "+klass.getName()+" where "+domainAttribute+"=:id", Long.class);
+		TypedQuery<Long> query = manager.createQuery("select count(*) from "+klass.getName()+" where "+domainAttribute+"= :id ", Long.class);
 		query.setParameter("id", id);
 		Long singleResult = query.getSingleResult();
-		Assert.state(singleResult < 1, "Não foi encontrado um id do "+klass.getName());
-		return false;
+		Assert.isTrue((singleResult >= 1), "Não foi encontrado um id do "+klass.getName());
+		return true;
 	}
 	
 	

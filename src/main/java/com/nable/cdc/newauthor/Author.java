@@ -14,7 +14,10 @@ import javax.validation.constraints.Size;
 
 import org.springframework.util.Assert;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Author {
 
 	@Id
@@ -35,6 +38,8 @@ public class Author {
 	
 	private LocalDateTime creationInstant = LocalDateTime.now();
 	
+	public Author() {
+	}
 
 	public Author(String name, @NotBlank @Email String email,
 			@Max(400) @NotBlank String observations) {
@@ -45,17 +50,30 @@ public class Author {
 		this.email = email;
 		this.observations = observations;
 	}
+	
+	
 
+
+	public String getName() {
+		return name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getObservations() {
+		return observations;
+	}
+
+	public LocalDateTime getCreationInstant() {
+		return creationInstant;
+	}
 
 	@Override
 	public String toString() {
 		return "Author [id=" + id + ", name=" + name + ", email=" + email + ", observations=" + observations
 				+ ", creationInstant=" + creationInstant + "]";
 	}
-
-
-	
-	 
-	
 	
 }

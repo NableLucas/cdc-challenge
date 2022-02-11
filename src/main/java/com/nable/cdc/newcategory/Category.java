@@ -15,9 +15,16 @@ public class Category {
 	
 	@NotBlank
 	private String name;
+	
+	public Category() {
+	}
 
 	public Category(@NotBlank String name) {
 		this.name = name;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 	
 	public String getName() {

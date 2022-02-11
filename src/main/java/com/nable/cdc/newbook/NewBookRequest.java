@@ -21,41 +21,38 @@ import com.nable.cdc.newauthor.Author;
 import com.nable.cdc.newcategory.Category;
 
 public class NewBookRequest {
-	
 
 	@NotBlank
-	@UniqueValue(domainClass = Book.class,  fieldName = "title")
+	@UniqueValue(domainClass = Book.class, fieldName = "title")
 	private String title;
-	
+
 	@NotBlank
 	@Size(max = 500)
 	private String review;
-	
+
 	private String summary;
-	
+
 	@Min(value = 20)
 	private BigDecimal price;
-	
+
 	@Min(value = 100)
 	private int pageNumber;
-	
-	//@ISBN
+
+	// @ISBN
 	@UniqueValue(domainClass = Book.class, fieldName = "isbn")
 	private String isbn;
-	
+
 	@Future
 	@JsonFormat(pattern = "dd/MM/yyyy", shape = Shape.STRING)
 	private LocalDate publicationDate;
-	
+
 	@Positive
 	@ExistsId(domainClass = Category.class, fieldName = "id")
 	private Long idCategory;
-	
+
 	@Positive
-	@ExistsId(domainClass = Book.class, fieldName = "id")
+	@ExistsId(domainClass = Author.class, fieldName = "id")
 	private Long idAuthor;
-	
-	
 
 	public NewBookRequest(@NotBlank String title, @NotBlank @Size(max = 500) String review, String summary,
 			@NotBlank @Min(20) BigDecimal price, @Min(100) int pageNumber, @ISBN String isbn,
@@ -72,21 +69,17 @@ public class NewBookRequest {
 		this.idAuthor = idAuthor;
 	}
 
-
-
 	public Book toModel(EntityManager manager) {
-		
+
 		Category category = manager.find(Category.class, idCategory);
-		
-		Assert.isNull(category, "Category need to exist");
-		
+
+		Assert.notNull(category, "Category need to exist");
+
 		Author author = manager.find(Author.class, idAuthor);
-		
-		Assert.isNull(author, "Author need to exist");
-		
-		return new Book(title, review, summary, price, pageNumber, 
-				isbn, publicationDate, category, author);
+
+		Assert.notNull(author, "Author need to exist");
+
+		return new Book(title, review, summary, price, pageNumber, isbn, publicationDate, category, author);
 	}
-	
-	
+
 }
